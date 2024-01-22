@@ -1,0 +1,88 @@
+@import "../../style.scss";
+
+.leftbar {
+	@include themify($themes) {
+		flex: 1.03;
+		position: sticky;
+		top: 70px;
+		height: calc(100vh - 70px);
+		background-color: themed("bg");
+		color: themed("textColor");
+
+		.container {
+			margin: 0px;
+			padding: 0;
+			.sidebarList {
+				display: flex;
+				flex-direction: column;
+				gap: 17px;
+				padding-top: 10px;
+
+				.sidebarLinks {
+					text-decoration: none;
+					display: flex;
+					gap: 10px;
+					color: themed("textColor");
+					list-style: none;
+					width: 150px;
+
+					&:hover {
+						transition: 0.3s;
+						box-shadow: 0px 5px 8px -9px rgba(0, 0, 0, 0.938);
+						color: rgb(220, 19, 214);
+						background-color: rgba(190, 187, 187, 0.808);
+						// border-right: 3px solid black;
+					}
+
+					.sidebarListItem {
+						display: flex;
+						gap: 10px;
+						align-items: center;
+						font-size: 20px;
+						padding-bottom: 5px;
+						cursor: pointer;
+						margin-right: 10px;
+						font-weight: 500;
+
+						img {
+							width: 28px;
+							height: 28px;
+						}
+
+						.sidebarListItemText {
+							text-decoration: none;
+							color: themed("textColor");
+						}
+					}
+				}
+			}
+
+			hr {
+				margin-left: 10px;
+				margin-right: 10px;
+				border: none;
+				height: 0.5px;
+				background-color: themed("border");
+				justify-content: center;
+			}
+
+			.user {
+				display: flex;
+				align-items: center;
+				gap: 1px;
+				padding: 0 10px;
+				margin: 0 15px;
+
+				.user_name {
+					margin-left: 5px;
+					font-size: 22px;
+					font-weight: 700;
+				}
+			}
+		}
+	}
+
+	@include for-Mobile-S {
+		display: none;
+	}
+}
