@@ -1,0 +1,3 @@
+.scroll-bg-darkgrey::-webkit-scrollbar {
+  display: none;
+}

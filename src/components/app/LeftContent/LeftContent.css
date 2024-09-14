@@ -1,0 +1,13 @@
+.navigation,
+.navigation > i,
+.navigation > span {
+  transition: all 0.3s ease;
+}
+
+.navigation:hover > i {
+  color: #1d9bf0;
+}
+
+.navigation:hover > span {
+  color: #1d9bf0;
+}

@@ -1,0 +1,9 @@
+.scroll-dark::-webkit-scrollbar {
+  background-color: theme("colors.primary");
+  width: 0.3em;
+}
+
+.scroll-dark::-webkit-scrollbar-thumb {
+  background-color: theme("colors.darkgrey");
+  border-radius: 10px;
+}

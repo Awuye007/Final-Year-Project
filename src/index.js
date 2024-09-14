@@ -1,13 +1,70 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
+import React from "react";
+import ReactDOM from "react-dom/client";
+import { RouterProvider, createBrowserRouter } from "react-router-dom";
+import "./index.css";
+import { Login } from "./pages/Login/Login";
+import { Chat } from "./pages/Main/Chat/Chat";
+import Counsellors from "./pages/Main/Counsellors/Counsellors";
+import Events from "./pages/Main/Events/Events";
+import { Home } from "./pages/Main/Home/Home";
+import { Main } from "./pages/Main/Main";
+import Profile from "./pages/Main/Profile/Profile";
+import Videos from "./pages/Main/Videos/Videos";
+import { NotFound } from "./pages/NotFound/NotFound";
+import reportWebVitals from "./reportWebVitals";
+import Feed from "./pages/Main/Feed/Feed";
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <Main />,
+    children: [
+      {
+        path: "/",
+        element: <Home />,
+      },
+      {
+        path: "/feed",
+        element: <Feed />,
+      },
+      {
+        path: "/videos",
+        element: <Videos />,
+      },
+      {
+        path: "/chats",
+        element: <Chat />,
+      },
+      {
+        path: "/counsellors",
+        element: <Counsellors />,
+      },
+      {
+        path: "/events",
+        element: <Events />,
+      },
+      {
+        path: "/profile",
+        element: <Profile />,
+      },
+    ],
+    errorElement: <NotFound />,
+  },
+  
+  {
+    path: "/auth/login",
+    element: <Login />,
+  },
+  {
+    path: "*",
+    element: <NotFound />,
+  },
+]);
+
+const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
-    <App />
+    <RouterProvider router={router} />
   </React.StrictMode>
 );
 

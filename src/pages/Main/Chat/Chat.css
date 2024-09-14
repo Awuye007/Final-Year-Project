@@ -1,0 +1,31 @@
+.conversations-container {
+  height: calc(100% - 10em);
+  overflow: auto;
+}
+
+.conversations-container::-webkit-scrollbar {
+  /* display: none; */
+  background: var(--bg-gray-900);
+  width: 0.3em;
+}
+
+.conversations-container::-webkit-scrollbar-thumb {
+  background-color: theme("colors.lightgrey");
+  border-radius: 10px;
+}
+
+.chat-container {
+  height: calc(100% - 9em);
+  overflow-y: auto;
+  scroll-behavior: smooth !important;
+}
+
+.chat-container::-webkit-scrollbar {
+  background: var(--bg-gray-900);
+  width: 0.3em;
+}
+
+.chat-container::-webkit-scrollbar-thumb {
+  background-color: theme("colors.lightgrey");
+  border-radius: 10px;
+}
