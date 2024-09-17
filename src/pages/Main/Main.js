@@ -14,7 +14,7 @@ export const Main = () => {
   };
 
   return (
-    <div className="bg-primary h-svh overflow-y-hidden max-h-svh px-4">
+    <div className="bg-primary h-svh overflow-y-hidden max-h-svh px-2 md:px-4">
       <Navbar
         open={open}
         setOpen={setOpen}

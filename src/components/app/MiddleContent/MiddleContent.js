@@ -13,7 +13,7 @@ export const MiddleContent = () => {
   };
 
   return (
-    <div className="flex-1 flex-grow text-white overflow-y-auto pb-20 scroll-bg-darkgrey pe-2">
+    <div className="flex-1 flex-grow text-white overflow-y-auto pb-20 scroll-bg-darkgrey">
       <div className="bg-grey flex justify-around gap-5 p-7 rounded-2xl mb-5  message-sender">
         <img
           src="https://picsum.photos/200/300"
