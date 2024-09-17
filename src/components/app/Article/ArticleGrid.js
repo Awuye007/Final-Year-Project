@@ -1,8 +1,8 @@
 import React from "react";
 
-const ArticleGrid = () => {
+const ArticleGrid = ({ onClick }) => {
   return (
-    <button className="flex gap-5 mb-5 text-left">
+    <button className="flex gap-5 mb-5 text-left" onClick={onClick}>
       <img
         src="https://picsum.photos/200/300"
         alt="article"

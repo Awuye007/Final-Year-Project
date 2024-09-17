@@ -21,6 +21,8 @@ export const Chat = () => {
 
   const [message, setMessage] = useState("");
 
+  const [open, setOpen] = React.useState(false);
+
   const handleChange = (e) => {
     const value = e.target.value;
 
@@ -95,13 +97,15 @@ export const Chat = () => {
 
   return (
     <div className="w-full bg-grey rounded-2xl h-5/6 flex overflow-hidden">
-      <div className="overflow-hidden">
+      <div
+        className={`overflow-hidden w-full md:w-2/5 md:block ${open ? "hidden" : ""}`}
+      >
         <div className="flex gap-20 justify-between items-center p-4 mb-5">
-          <div className="flex gap-3 items-center">
+          <div className="flex gap-3 items-center text-nowrap">
             <img
               src="https://picsum.photos/200/300"
               alt="profile"
-              className="w-10 h-10 rounded-lg"
+              className="w-10 h-10 rounded-lg aspect-square"
             />
             <div>
               <h3 className="text-white font-medium">John Doe</h3>
@@ -120,24 +124,24 @@ export const Chat = () => {
             className="bg-slate-950 outline-none w-full text-white placeholder:text-slate-400 text-sm"
           />
         </div>
-        <div className="conversations-container overflow-auto">
+        <div className="conversations-container w-full">
           {Array.from({ length: 10 }).map((_, index) => (
             <button
-              className="conversation flex items-center gap-3 p-3 hover:bg-gray-900 transition outline-none"
-              onClick={() => {}}
+              className="conversation flex items-center gap-3 p-3 hover:bg-gray-900 transition outline-none w-full"
+              onClick={() => setOpen(true)}
               key={index}
             >
               <img
                 src="https://picsum.photos/200/300"
                 alt="profile"
-                className="w-10 h-10 rounded-lg"
+                className="w-10 h-10 rounded-lg aspect-square"
               />
-              <div>
+              <div className="w-full">
                 <div className="flex items-center gap-3 justify-between mb-1">
                   <h3 className="text-white font-medium">John Doe</h3>
                   <p className="text-slate-400 text-xs">9:30am</p>
                 </div>
-                <p className="text-slate-400 text-xs truncate max-w-60">
+                <p className="text-slate-400 text-xs truncate max-w-[70vw] md:max-w-[17vw]">
                   Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam
                   venenatis luctus elit, a accumsan quam imperdiet sit amet.
                   Nullam congue porta diam, sed sollicitudin lacus euismod
@@ -148,15 +152,21 @@ export const Chat = () => {
           ))}
         </div>
       </div>
-      <div className="chat-section flex-grow bg-gray-900">
-        <div className="flex gap-20 justify-between items-center p-4 shadow-md">
-          <div className="flex gap-3 items-center">
+      <div
+        className={`chat-section flex-grow bg-gray-900 w-full md:block ${open ? "" : "hidden"}`}
+      >
+        <div className="flex gap-3 justify-between items-center p-4 shadow-md w-full">
+          <i
+            className="bi bi-chevron-left text-slate-400"
+            onClick={() => setOpen(false)}
+          ></i>
+          <div className="flex flex-1 gap-3 items-center">
             <img
               src="https://picsum.photos/200/300"
               alt="profile"
-              className="w-10 h-10 rounded-lg"
+              className="w-10 h-10 rounded-lg aspect-square"
             />
-            <div>
+            <div className="text-nowrap">
               <h3 className="text-white font-medium">John Doe</h3>
               <p className="text-slate-400 text-xs">Full Stack Developer</p>
             </div>
@@ -170,67 +180,66 @@ export const Chat = () => {
             </button>
           </div>
         </div>
-        <div
-          className="chat-container px-4"
-          id="chat"
-        >
-          {messages.sort((a, b) => new Date(a.time) - new Date(b.time)).map((message, index) =>
-            message.type === "receiver" ? (
-              <div className="w-full my-3" key={index}>
-                <div className="flex place-items-end gap-3 mb-3">
-                  <img
-                    src={message.image}
-                    alt="profile"
-                    className="w-10 h-10 rounded-lg"
-                  />
-                  <div>
-                    {message.message.map((msg, index) => (
-                      <p
-                        className={`text-white text-sm bg-cyan-600 w-fit p-3 rounded-3xl px-4 max-w-lg ${index === message.message.length - 1 ? "rounded-bl-none" : "mb-3"}`}
-                        key={index}
-                      >
-                        {msg}
-                      </p>
-                    ))}
+        <div className="chat-container px-4" id="chat">
+          {messages
+            .sort((a, b) => new Date(a.time) - new Date(b.time))
+            .map((message, index) =>
+              message.type === "receiver" ? (
+                <div className="w-full my-3" key={index}>
+                  <div className="flex place-items-end gap-3 mb-3">
+                    <img
+                      src={message.image}
+                      alt="profile"
+                      className="w-10 h-10 rounded-lg"
+                    />
+                    <div>
+                      {message.message.map((msg, index) => (
+                        <p
+                          className={`text-white text-sm bg-cyan-600 w-fit p-3 rounded-3xl px-4 max-w-lg ${index === message.message.length - 1 ? "rounded-bl-none" : "mb-3"}`}
+                          key={index}
+                        >
+                          {msg}
+                        </p>
+                      ))}
+                    </div>
                   </div>
+                  <p className="text-slate-400 text-xs">
+                    {new Intl.DateTimeFormat("en-US", {
+                      hour: "numeric",
+                      minute: "numeric",
+                      hour12: true,
+                    }).format(new Date(message.time))}
+                  </p>
                 </div>
-                <p className="text-slate-400 text-xs">
-                  {new Intl.DateTimeFormat("en-US", {
-                    hour: "numeric",
-                    minute: "numeric",
-                    hour12: true,
-                  }).format(new Date(message.time))}
-                </p>
-              </div>
-            ) : (
-              <div className="w-full my-3" key={index}>
-                <div className="flex place-items-end gap-3 mb-3 justify-end">
-                  <div>
-                    {message.message.map((msg, index) => (
-                      <p
-                        className={`text-white text-sm bg-slate-800 w-fit p-3 rounded-3xl px-4 max-w-lg ${index === message.message.length - 1 ? "rounded-br-none" : "mb-3"}`}
-                        key={index}
-                      >
-                        {msg}
-                      </p>
-                    ))}
+              ) : (
+                <div className="w-full my-3" key={index}>
+                  <div className="flex place-items-end gap-3 mb-3 justify-end">
+                    <div>
+                      {message.message.map((msg, index) => (
+                        <p
+                          className={`text-white text-sm bg-slate-800 w-fit p-3 rounded-3xl px-4 max-w-lg ${index === message.message.length - 1 ? "rounded-br-none" : "mb-3"}`}
+                          key={index}
+                        >
+                          {msg}
+                        </p>
+                      ))}
+                    </div>
+                    <img
+                      src="https://picsum.photos/200/300"
+                      alt="profile"
+                      className="w-10 h-10 rounded-lg"
+                    />
                   </div>
-                  <img
-                    src="https://picsum.photos/200/300"
-                    alt="profile"
-                    className="w-10 h-10 rounded-lg"
-                  />
+                  <p className="text-slate-400 text-xs text-end">
+                    {new Intl.DateTimeFormat("en-US", {
+                      hour: "numeric",
+                      minute: "numeric",
+                      hour12: true,
+                    }).format(new Date(message.time))}
+                  </p>
                 </div>
-                <p className="text-slate-400 text-xs text-end">
-                  {new Intl.DateTimeFormat("en-US", {
-                    hour: "numeric",
-                    minute: "numeric",
-                    hour12: true,
-                  }).format(new Date(message.time))}
-                </p>
-              </div>
-            )
-          )}
+              )
+            )}
         </div>
         <div className="w-full h-16 px-4 pt-2">
           <div className="w-full h-14 flex items-center justify-center gap-5 bg-slate-950 rounded-full px-4 p-2">

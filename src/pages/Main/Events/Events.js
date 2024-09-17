@@ -6,7 +6,7 @@ import {
 
 const Events = () => {
   return (
-    <div className="w-full">
+    <div className="w-full overflow-y-auto">
       <Accordion className="flex flex-wrap gap-5">
         {Array(10)
           .fill(0)
@@ -14,7 +14,7 @@ const Events = () => {
             <AccordionItem
               value={index + 1}
               trigger={`Event ${index + 1}`}
-              className="max-w-[30%] mb-5"
+              className="md:max-w-[30%] mb-5"
               key={index}
             >
               <p className="text-slate-400 text-sm">

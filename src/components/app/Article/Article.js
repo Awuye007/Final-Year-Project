@@ -1,7 +1,7 @@
 import React from "react";
 import StudyImg from "../../../assets/images/study.jpg";
 
-const Article = () => {
+const Article = ({ handleBack }) => {
   const articleContent = `<div id="lipsum">
 <p class="mb-5 text-justify">
 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum ac felis dictum, rutrum tortor sit amet, interdum nulla. Aenean quis pretium dui, nec vestibulum justo. In pellentesque gravida dolor, a pellentesque ipsum condimentum in. Pellentesque non est volutpat ante ultricies ullamcorper. Curabitur eu diam neque. Nulla eu fermentum diam, non commodo neque. Sed ac vehicula erat. Integer neque dui, vestibulum id lacus ut, auctor eleifend massa. Nam venenatis sagittis laoreet. In tristique elit id mi molestie faucibus. In pulvinar augue vitae tortor luctus cursus in quis tortor. Maecenas interdum dapibus libero, et varius massa sollicitudin nec. Duis sit amet erat ac sem congue porta sed quis orci. Duis iaculis massa a leo tristique aliquet. Curabitur odio massa, suscipit vel laoreet nec, consectetur pellentesque ex. Proin mattis diam vel suscipit fringilla.
@@ -21,6 +21,10 @@ Suspendisse mattis neque vulputate aliquam accumsan. Morbi interdum volutpat por
 
   return (
     <div className="w-full">
+      <button className="mb-5 text-left" onClick={handleBack}>
+        <i className="fa-solid fa-arrow-left me-3"></i>
+        <span>Back</span>
+      </button>
       <img src={StudyImg} alt="study" className="w-full h-3/4 object-cover" />
       <p className="text-red-500 text-sm uppercase mb-3 mt-4">
         Trending in Indonesia

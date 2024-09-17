@@ -1,6 +1,6 @@
 .conversations-container {
   height: calc(100% - 10em);
-  overflow: auto;
+  overflow-y: auto;
 }
 
 .conversations-container::-webkit-scrollbar {

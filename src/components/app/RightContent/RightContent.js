@@ -1,12 +1,16 @@
 import React from "react";
-import HIVImage from '../../../assets/images/hiv-image.jpeg'
+import HIVImage from "../../../assets/images/hiv-image.jpeg";
 import "./RightContent.css";
 
 export const RightContent = () => {
   return (
-    <div className="flex-0-4 text-white">
+    <div className="flex-0-4 text-white hidden md:block">
       <div className="bg-grey rounded-2xl overflow-hidden mb-10 px-3">
-        <img src={HIVImage} alt="HIV" className="w-full object-cover my-3" />     
+        <img
+          src={HIVImage}
+          alt="HIV"
+          className="w-full object-cover my-3 min-h-96"
+        />
         {/* <div className="flex items-center justify-between p-4 mb-3">
           <h1 className="font-medium text-lg">Trend for you</h1>
           <a href="/" className="text-white text-lg">
