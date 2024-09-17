@@ -141,18 +141,18 @@ const Post = () => {
                   alt="profile"
                   className="w-8 h-8 rounded-full"
                 />
-                <div className="flex justify-between w-full gap-5 bg-darkgrey p-5 rounded-2xl rounded-tl-none">
-                  <div className="flex flex-col">
+                <div className="flex flex-col justify-between w-full gap-2 bg-darkgrey p-5 rounded-2xl rounded-tl-none">
+                  <div className="flex gap-3 justify-between items-center">
                     <h3 className="text-slate-400 mb-1">{comment.name}</h3>
-                    <p className="text-slate-300 text-sm">{comment.comment}</p>
+                    <small className="text-slate-400 text-sm whitespace-nowrap">
+                      {Intl.DateTimeFormat("en-US", {
+                        year: "numeric",
+                        month: "short",
+                        day: "2-digit",
+                      }).format(comment.time)}
+                    </small>
                   </div>
-                  <small className="text-slate-400 text-sm whitespace-nowrap">
-                    {Intl.DateTimeFormat("en-US", {
-                      year: "numeric",
-                      month: "short",
-                      day: "2-digit",
-                    }).format(comment.time)}
-                  </small>
+                  <p className="text-slate-300 text-sm">{comment.comment}</p>
                 </div>
               </div>
             </div>
