@@ -136,16 +136,15 @@ const Post = () => {
 						<input
 							value={input}
 							onChange={(e) => setInput(e.target.value)}
-							onKeyDown={(e) => {
-								if (e.key === "Enter") {
-									// Trigger form submit when Enter key is pressed
-									handleSubmit();
-								}
-							}}
-							type="text"
 							className="bg-darkgrey text-white placeholder:text-slate-400 w-full outline-none text-sm rounded-xl p-2 h-12 px-4"
 							placeholder="Add a comment..."
 						/>
+						<button
+							className="bg-blue-500 hover:bg-blue-600 transition duration-300 ease-in-out text-white w-full rounded-xl p-2 h-12 px-4"
+							onClick={handleSubmit}
+						>
+							Submit
+						</button>
 					</div>
 					{/* Comments */}
 					{comments.map((comment, index) => (
