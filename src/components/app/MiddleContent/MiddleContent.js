@@ -33,21 +33,6 @@ export const MiddleContent = () => {
 						className="bg-darkgrey text-white placeholder:text-slate-400 w-full outline-none text-sm rounded-xl p-2 h-12 px-4"
 						placeholder="What's happening?"
 					/>
-
-					{/* <div className="flex gap-3 items-center">
-            <button className="border-slate-100 border p-2 px-4 rounded-full flex items-center gap-3 hover:bg-slate-500 transition">
-              <i className="fa-solid fa-image text-green-400 text-xl"></i>
-              Picture
-            </button>
-            <button className="border-slate-100 border p-2 px-4 rounded-full flex items-center gap-3 hover:bg-slate-500 transition">
-              <i class="fa-solid fa-circle-play text-blue-400 text-xl"></i>
-              Video
-            </button>
-            <button className="border-slate-100 border p-2 px-4 rounded-full flex items-center gap-3 hover:bg-slate-500 transition">
-              <i className="fa-solid fa-calendar-days text-yellow-400 text-xl"></i>
-              Schedule
-            </button>
-          </div> */}
 				</div>
 			</div>
 			{Array.from({ length: 10 }).map((_, i) => (
