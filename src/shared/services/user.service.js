@@ -17,3 +17,4 @@ export const postRegister = async (data) => {
     throw error;
   }
 };
+

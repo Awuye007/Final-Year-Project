@@ -34,25 +34,18 @@ async function request(
     headers: authToken
       ? {
           Authorization: `Bearer ${authToken}`,
-          "Content-Type": data ? "multipart/form-data" : undefined,
+          "Content-Type": "application/json",
           ...headers,
         }
       : {
-          "Content-Type": data ? "multipart/form-data" : undefined,
+          "Content-Type": "application/json",
           ...headers,
         },
-    body: data ? createFormData(data) : undefined,
+    body: data ? JSON.stringify(data) : undefined,
   });
 
   return handleResponse(response);
 }
-
-const createFormData = (data) => {
-  const formData = new FormData();
-  Object.keys(data).forEach((key) => formData.append(key, data[key]));
-  return formData;
-};
-
 export const get = (url, options) =>
   request(url, { method: "GET", ...options });
 export const post = (url, options) =>
