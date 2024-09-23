@@ -1,13 +1,16 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { passwordValidation } from "../../shared/core/validations";
-import { postLogin } from "../../shared/services/user.service";
+import { getProfile, postLogin } from "../../shared/services/user.service";
+import { useUserContext } from "../../shared/context/UserContext";
 import "./Login.css";
 
 export const Login = () => {
   const navigate = useNavigate();
 
   const [loading, setLoading] = useState(false);
+
+  const { setUser } = useUserContext();
 
   const [form, setForm] = useState({
     email: "",
@@ -54,7 +57,10 @@ export const Login = () => {
       const resp = await postLogin(form);
       setLoading(false);
 
-      if (resp) {
+      const user = await getProfile();
+
+      if (resp && user) {
+        setUser(user[0]);
         navigate("/");
       }
     } catch (error) {

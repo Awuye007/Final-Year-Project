@@ -1,14 +1,23 @@
 import React from "react";
+import { postComment } from "../../../shared/services/post.service";
 import Post from "../Post/Post";
 import "./MiddleContent.css";
 
 export const MiddleContent = () => {
-  const [input, setInput] = React.useState("");
+  const [search, setSearch] = React.useState("");
 
-  const handleSubmit = () => {
-    // Database stuff
-
-    setInput("");
+  const handleSubmit = async () => {
+    try {
+      const res = await postComment({
+        content: search,
+        user: "string",
+        post: "string",
+        image: "string",
+      });
+      setSearch("");
+    } catch (error) {
+      throw error;
+    }
   };
 
   return (
@@ -21,8 +30,8 @@ export const MiddleContent = () => {
         />
         <div className="flex flex-1 gap-5 ">
           <input
-            value={input}
-            onChange={(e) => setInput(e.target.value)}
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
             onKeyDown={(e) => {
               if (e.key === "Enter") {
                 // Trigger form submit when Enter key is pressed

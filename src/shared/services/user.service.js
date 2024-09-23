@@ -1,4 +1,4 @@
-const { post } = require("../core/requests");
+const { post, get } = require("../core/requests");
 
 export const postLogin = async (data) => {
   try {
@@ -18,3 +18,11 @@ export const postRegister = async (data) => {
   }
 };
 
+export const getProfile = async () => {
+  try {
+    const res = await get(`/accounts/users/`);
+    return res;
+  } catch (error) {
+    throw error;
+  }
+};

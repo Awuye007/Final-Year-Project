@@ -1,9 +1,12 @@
 import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { useUserContext } from "../../../shared/context/UserContext";
 
 export const Navbar = ({ open, setOpen, toggleSidebar }) => {
   const navigate = useNavigate();
+
+  const { user, logout } = useUserContext();
 
   return (
     <div className="flex py-4">
@@ -39,7 +42,7 @@ export const Navbar = ({ open, setOpen, toggleSidebar }) => {
                   width={35}
                 />
                 <span className="text-muted text-base hidden md:block">
-                  Mabel Awuye
+                  {user?.first_name + " " + user?.last_name}
                 </span>
                 <i className="fa-solid fa-sort-down text-lightgrey relative -top-1 hidden md:block"></i>
               </MenuButton>
@@ -81,7 +84,10 @@ export const Navbar = ({ open, setOpen, toggleSidebar }) => {
                 <MenuItem>
                   <button
                     type="button"
-                    onClick={() => navigate("/auth/login")}
+                    onClick={() => {
+                      logout();
+                      navigate("/auth/login");
+                    }}
                     className="block w-full px-4 py-2 text-left text-sm text-white data-[focus]:bg-gray-500"
                   >
                     Sign out

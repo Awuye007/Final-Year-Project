@@ -6,13 +6,14 @@ import { Login } from "./pages/Login/Login";
 import { Chat } from "./pages/Main/Chat/Chat";
 import Counsellors from "./pages/Main/Counsellors/Counsellors";
 import Events from "./pages/Main/Events/Events";
+import Feed from "./pages/Main/Feed/Feed";
 import { Home } from "./pages/Main/Home/Home";
 import { Main } from "./pages/Main/Main";
 import Profile from "./pages/Main/Profile/Profile";
 import Videos from "./pages/Main/Videos/Videos";
 import { NotFound } from "./pages/NotFound/NotFound";
 import reportWebVitals from "./reportWebVitals";
-import Feed from "./pages/Main/Feed/Feed";
+import { UserProvider } from "./shared/context/UserContext";
 
 const router = createBrowserRouter([
   {
@@ -50,7 +51,7 @@ const router = createBrowserRouter([
     ],
     errorElement: <NotFound />,
   },
-  
+
   {
     path: "/auth/login",
     element: <Login />,
@@ -64,7 +65,9 @@ const router = createBrowserRouter([
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
-    <RouterProvider router={router} />
+    <UserProvider>
+      <RouterProvider router={router} />
+    </UserProvider>
   </React.StrictMode>
 );
 

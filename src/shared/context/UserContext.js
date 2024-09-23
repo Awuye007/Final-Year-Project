@@ -1,0 +1,58 @@
+import { createContext, useContext, useEffect, useState } from "react";
+const storageService = require("../core/storage");
+
+export const UserContext = createContext({
+  user: null,
+  setUser: () => {},
+  logout: () => { },
+  isLoggedIn: () => { 
+    return !!storageService.getUser() && !!storageService.getAccessToken();
+  },
+});
+
+export const UserProvider = ({ children }) => {
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    (async () => {
+      let savedUser = await storageService.getUser();
+      if (savedUser) {
+        setUser(savedUser);
+      }
+    })();
+  }, []);
+
+  useEffect(() => {
+    const updateUserInStorage = () => {
+      storageService.setUser(user);
+    };
+
+    if (user !== null) {
+      updateUserInStorage();
+    }
+  }, [user]);
+
+  const logout = () => {
+    setUser(null);
+    storageService.clearStorage();
+  };
+
+
+  const isLoggedIn = () => {
+    return !!storageService.getUser() && !!storageService.getAccessToken();
+  };
+
+  return (
+    <UserContext.Provider value={{ user, setUser, logout, isLoggedIn }}>
+      {children}
+    </UserContext.Provider>
+  );
+};
+
+export const useUserContext = () => {
+  const context = useContext(UserContext);
+  if (context === undefined) {
+    throw new Error("useUserContext must be used within a UserProvider");
+  }
+  return context;
+};
