@@ -10,10 +10,9 @@ export const MiddleContent = () => {
     try {
       const res = await postComment({
         content: search,
-        user: "string",
-        post: "string",
-        image: "string",
+        image: "",
       });
+      
       setSearch("");
     } catch (error) {
       throw error;

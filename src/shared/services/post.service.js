@@ -26,3 +26,12 @@ export const createPost = async (data) => {
     throw error;
   }
 };
+
+export const getPosts = async () => {
+  try {
+    const res = await get(`/post/ls/`);
+    return res;
+  } catch (error) {
+    throw error;
+  }
+};
