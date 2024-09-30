@@ -1,5 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { postComment } from "../../../shared/services/post.service";
+
 
 const Post = () => {
   const [show, setShow] = React.useState(false);
