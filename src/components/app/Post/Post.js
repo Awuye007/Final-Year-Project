@@ -1,45 +1,43 @@
+import moment from "moment";
 import React from "react";
 import { Link } from "react-router-dom";
 
-const Post = () => {
+const Post = ({
+  id,
+  user,
+  userId,
+  createdAt,
+  content,
+  likes,
+  comments,
+  handleLike,
+  comment,
+  setComment,
+  handleCommentSubmit,
+}) => {
   const [show, setShow] = React.useState(false);
 
-  const [input, setInput] = React.useState("");
-  const handleSubmit = () => {
-    // Database stuff
-
-    setInput("");
-  };
-
-  //  Initialize state for the like count
-  const [likeCount, setLikeCount] = React.useState(0);
-
-  //  Create a function to handle the like button click
-  const handleLike = () => {
-    setLikeCount(likeCount + 1); // Increments the like count by 1
-  };
-
-  const [comments, setComments] = React.useState([
-    {
-      id: 1,
-      name: "Elon Musk",
-      comment: "This is a comment",
-      time: new Date(),
-    },
-    {
-      id: 2,
-      name: "Elon Musk",
-      comment: "This is a comment",
-      time: new Date("2022-01-01T04:34:00"),
-    },
-    {
-      id: 3,
-      name: "Elon Musk",
-      comment:
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur est sem, pretium sed condimentum eu, tempor ut felis. Curabitur ex purus, interdum at gravida ut, malesuada at augue. Suspendisse elementum arcu non lacus imperdiet ornare. Curabitur aliquet augue eget urna condimentum malesuada. Integer luctus dapibus dolor eget rutrum.",
-      time: new Date("2022-01-01T04:34:00"),
-    },
-  ]);
+  // const [comments, setComments] = React.useState([
+  //   {
+  //     id: 1,
+  //     name: "Elon Musk",
+  //     comment: "This is a comment",
+  //     time: new Date(),
+  //   },
+  //   {
+  //     id: 2,
+  //     name: "Elon Musk",
+  //     comment: "This is a comment",
+  //     time: new Date("2022-01-01T04:34:00"),
+  //   },
+  //   {
+  //     id: 3,
+  //     name: "Elon Musk",
+  //     comment:
+  //       "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur est sem, pretium sed condimentum eu, tempor ut felis. Curabitur ex purus, interdum at gravida ut, malesuada at augue. Suspendisse elementum arcu non lacus imperdiet ornare. Curabitur aliquet augue eget urna condimentum malesuada. Integer luctus dapibus dolor eget rutrum.",
+  //     time: new Date("2022-01-01T04:34:00"),
+  //   },
+  // ]);
 
   return (
     <div className="bg-grey p-4 rounded-2xl mb-5">
@@ -55,12 +53,14 @@ const Post = () => {
               <div>
                 <Link to={"/profile"}>
                   <div className="flex gap-2 items-center">
-                    <h1 className="text-white font-medium">Mabel Awuye</h1>
+                    <h1 className="text-white font-medium">{user?.username}</h1>
                     {/* <i class="bi bi-patch-check-fill text-blue-600 text-xl"></i> */}
                     {/* <h3 className="text-slate-400 text-sm">@elonmusk</h3> */}
                   </div>
                 </Link>
-                <small className="text-slate-400">Few minutes ago</small>
+                <small className="text-slate-400">
+                  {moment(createdAt?.seconds * 1000).fromNow()}
+                </small>
               </div>
             </div>
             <a className="text-slate-400 text-xl" href="/">
@@ -68,14 +68,7 @@ const Post = () => {
             </a>
           </div>
           <p className="md:ms-14 text-slate-300 text-sm pe-4 line-clamp-3">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec
-            varius lorem tristique, cursus sem non, luctus lorem. Duis facilisis
-            nibh a bibendum mollis. Etiam in fringilla justo, vitae varius
-            magna. Donec convallis maximus dapibus. Pellentesque molestie, nunc
-            vestibulum viverra semper, neque mi auctor purus, vel varius lorem
-            leo ac dolor. Proin dignissim eu nunc eget semper. Mauris sit amet
-            faucibus turpis. Pellentesque leo purus, condimentum at congue at,
-            tristique sed lectus.
+            {content}
           </p>
           <div className="md:ms-14 flex gap-3 items-center justify-between mb-4">
             <div className="flex gap-1 items-center">
@@ -83,7 +76,7 @@ const Post = () => {
                 <i className="fa-solid fa-heart text-white text-sm"></i>
               </span>
               <span className="text-slate-400 text-sm">
-                {likeCount} {likeCount === 1 ? "Like" : "Likes"}
+                {likes?.length} {likes?.length === 1 ? "Like" : "Likes"}
               </span>
             </div>
             <a
@@ -94,19 +87,26 @@ const Post = () => {
                 setShow(!show);
               }}
             >
-              45 Comments
+              {comments?.length} Comment{comments?.length === 1 ? "" : "s"}
             </a>
           </div>
           <div className="md:ms-14 flex items-center gap-3">
             <button
               className="bg-darkgrey p-3 px-4 w-full rounded-2xl flex items-center gap-3 hover:opacity-70 transition justify-center text-sm"
-              onClick={(e) => {
-                e.preventDefault();
-                handleLike();
-              }}
+              onClick={async (e) => await handleLike(e, id)}
             >
-              <i className="fa-solid fa-heart text-white text-xl"></i>
-              Like
+              {!likes?.includes(userId) ? (
+                <>
+                  {" "}
+                  <i className="fa-solid fa-heart text-red-500 text-xl"></i>{" "}
+                  Like{" "}
+                </>
+              ) : (
+                <>
+                  <i className="fa-solid fa-heart-broken text-white text-xl"></i>{" "}
+                  Unlike
+                </>
+              )}
             </button>
             <button
               className="bg-darkgrey p-3 px-4 w-full rounded-2xl flex items-center gap-3 hover:opacity-70 transition justify-center text-sm"
@@ -115,7 +115,7 @@ const Post = () => {
                 setShow(!show);
               }}
             >
-              <i className="fa-solid fa-comment-dots text-white text-xl"></i>
+              <i className="fa-solid fa-comment-dots text-blue-500 text-xl"></i>
               Comment
             </button>
             {/* <button className="border-slate-100 border p-3 px-4 rounded-2xl flex items-center gap-3 hover:opacity-70 transition justify-center">
@@ -134,13 +134,13 @@ const Post = () => {
               className="w-6 h-6 rounded-full aspect-square"
             />
             <input
-              value={input}
-              onChange={(e) => setInput(e.target.value)}
+              value={comment}
+              onChange={(e) => setComment(e.target.value)}
               className="bg-darkgrey text-white placeholder:text-slate-400 w-full outline-none text-sm rounded-xl p-2 h-12 px-4"
               placeholder="Add a comment..."
             />
             <button
-              onClick={handleSubmit}
+              onClick={async (e) => await handleCommentSubmit(e, id)}
               className="bg-blue-500 hover:bg-blue-600 transition duration-300 ease-in-out text-white w-12 h-12 rounded-xl flex items-center justify-center"
             >
               <i className="fas fa-paper-plane"></i>
@@ -157,13 +157,11 @@ const Post = () => {
                 />
                 <div className="flex flex-col justify-between w-full gap-2 bg-darkgrey p-5 rounded-2xl rounded-tl-none">
                   <div className="flex gap-3 justify-between items-center">
-                    <h3 className="text-slate-400 mb-1">{comment.name}</h3>
+                    <h3 className="text-slate-400 mb-1">
+                      {comment?.user?.username}
+                    </h3>
                     <small className="text-slate-400 text-sm whitespace-nowrap">
-                      {Intl.DateTimeFormat("en-US", {
-                        year: "numeric",
-                        month: "short",
-                        day: "2-digit",
-                      }).format(comment.time)}
+                      {comment?.time?.toDate().toDateString()?.slice(4)}
                     </small>
                   </div>
                   <p className="text-slate-300 text-sm">{comment.comment}</p>

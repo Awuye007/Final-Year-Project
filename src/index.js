@@ -1,6 +1,12 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import { RouterProvider, createBrowserRouter } from "react-router-dom";
+import {
+  Navigate,
+  RouterProvider,
+  createBrowserRouter,
+} from "react-router-dom";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import "./index.css";
 import { Login } from "./pages/Login/Login";
 import { Chat } from "./pages/Main/Chat/Chat";
@@ -13,7 +19,17 @@ import Profile from "./pages/Main/Profile/Profile";
 import Videos from "./pages/Main/Videos/Videos";
 import { NotFound } from "./pages/NotFound/NotFound";
 import reportWebVitals from "./reportWebVitals";
-import { UserProvider } from "./shared/context/UserContext";
+import { UserProvider, useUserContext } from "./shared/context/UserContext";
+
+// Auth guard
+const ProtectedRoute = ({ children, path }) => {
+  const { isLoggedIn } = useUserContext();
+
+  if (!isLoggedIn() && path !== "/auth/login") {
+    return <Navigate to="/auth/login" />;
+  }
+  return children;
+};
 
 const router = createBrowserRouter([
   {
@@ -22,31 +38,59 @@ const router = createBrowserRouter([
     children: [
       {
         path: "/",
-        element: <Home />,
+        element: (
+          <ProtectedRoute path="/">
+            <Home />
+          </ProtectedRoute>
+        ),
       },
       {
         path: "/feed",
-        element: <Feed />,
+        element: (
+          <ProtectedRoute path="/feed">
+            <Feed />
+          </ProtectedRoute>
+        ),
       },
       {
         path: "/videos",
-        element: <Videos />,
+        element: (
+          <ProtectedRoute path="/videos">
+            <Videos />
+          </ProtectedRoute>
+        ),
       },
       {
         path: "/chats",
-        element: <Chat />,
+        element: (
+          <ProtectedRoute path="/chats">
+            <Chat />
+          </ProtectedRoute>
+        ),
       },
       {
         path: "/counsellors",
-        element: <Counsellors />,
+        element: (
+          <ProtectedRoute path="/counsellors">
+            <Counsellors />
+          </ProtectedRoute>
+        ),
       },
       {
         path: "/events",
-        element: <Events />,
+        element: (
+          <ProtectedRoute path="/events">
+            <Events />
+          </ProtectedRoute>
+        ),
       },
       {
         path: "/profile",
-        element: <Profile />,
+        element: (
+          <ProtectedRoute path="/profile">
+            <Profile />
+          </ProtectedRoute>
+        ),
       },
     ],
     errorElement: <NotFound />,
@@ -67,6 +111,7 @@ root.render(
   <React.StrictMode>
     <UserProvider>
       <RouterProvider router={router} />
+      <ToastContainer />
     </UserProvider>
   </React.StrictMode>
 );

@@ -42,7 +42,7 @@ export const Navbar = ({ open, setOpen, toggleSidebar }) => {
                   width={35}
                 />
                 <span className="text-muted text-base hidden md:block">
-                  {user?.first_name + " " + user?.last_name}
+                  {user?.username}
                 </span>
                 <i className="fa-solid fa-sort-down text-lightgrey relative -top-1 hidden md:block"></i>
               </MenuButton>

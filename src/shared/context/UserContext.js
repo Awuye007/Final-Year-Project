@@ -1,11 +1,15 @@
+import { signInWithEmailAndPassword, signOut } from "firebase/auth";
+import { collection, getDocs } from "firebase/firestore";
 import { createContext, useContext, useEffect, useState } from "react";
+import { auth, db } from "../core/firebase";
 const storageService = require("../core/storage");
 
 export const UserContext = createContext({
   user: null,
   setUser: () => {},
-  logout: () => { },
-  isLoggedIn: () => { 
+  logout: () => {},
+  login: async (email, password) => {},
+  isLoggedIn: () => {
     return !!storageService.getUser() && !!storageService.getAccessToken();
   },
 });
@@ -35,15 +39,32 @@ export const UserProvider = ({ children }) => {
   const logout = () => {
     setUser(null);
     storageService.clearStorage();
+    signOut(auth);
   };
 
+  const login = async (email, password) => {
+    try {
+      const authResp = await signInWithEmailAndPassword(auth, email, password);
+      const resp = await getDocs(collection(db, "users"));
+      const user = resp.docs.find(
+        (doc) => doc.data().email === authResp.user.email
+      );
+      const accessToken = await authResp.user.getIdToken();
+      storageService.setAccessToken(accessToken);
+      storageService.setUser({ ...user.data(), id: user.id });
+      setUser({ ...user.data(), id: user.id });
+      return user;
+    } catch (error) {
+      throw error;
+    }
+  };
 
   const isLoggedIn = () => {
     return !!storageService.getUser() && !!storageService.getAccessToken();
   };
 
   return (
-    <UserContext.Provider value={{ user, setUser, logout, isLoggedIn }}>
+    <UserContext.Provider value={{ user, setUser, login, logout, isLoggedIn }}>
       {children}
     </UserContext.Provider>
   );
