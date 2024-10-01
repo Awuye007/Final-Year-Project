@@ -1,8 +1,6 @@
 import moment from "moment";
 import React from "react";
 import { Link } from "react-router-dom";
-import { postComment } from "../../../shared/services/post.service";
-
 
 const Post = ({
   id,
@@ -19,27 +17,7 @@ const Post = ({
 }) => {
   const [show, setShow] = React.useState(false);
 
-  // const [comments, setComments] = React.useState([
-  //   {
-  //     id: 1,
-  //     name: "Elon Musk",
-  //     comment: "This is a comment",
-  //     time: new Date(),
-  //   },
-  //   {
-  //     id: 2,
-  //     name: "Elon Musk",
-  //     comment: "This is a comment",
-  //     time: new Date("2022-01-01T04:34:00"),
-  //   },
-  //   {
-  //     id: 3,
-  //     name: "Elon Musk",
-  //     comment:
-  //       "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur est sem, pretium sed condimentum eu, tempor ut felis. Curabitur ex purus, interdum at gravida ut, malesuada at augue. Suspendisse elementum arcu non lacus imperdiet ornare. Curabitur aliquet augue eget urna condimentum malesuada. Integer luctus dapibus dolor eget rutrum.",
-  //     time: new Date("2022-01-01T04:34:00"),
-  //   },
-  // ]);
+  const [loading, setLoading] = React.useState(false);
 
   return (
     <div className="bg-grey p-4 rounded-2xl mb-5">
@@ -120,9 +98,6 @@ const Post = ({
               <i className="fa-solid fa-comment-dots text-blue-500 text-xl"></i>
               Comment
             </button>
-            {/* <button className="border-slate-100 border p-3 px-4 rounded-2xl flex items-center gap-3 hover:opacity-70 transition justify-center">
-							<i class="bi bi-upload text-white text-xl"></i>
-						</button> */}
           </div>
         </div>
       </div>
@@ -142,10 +117,22 @@ const Post = ({
               placeholder="Add a comment..."
             />
             <button
-              onClick={async (e) => await handleCommentSubmit(e, id)}
+              onClick={async (e) => {
+                setLoading(true);
+                await handleCommentSubmit(e, id);
+                setLoading(false);
+              }}
               className="bg-blue-500 hover:bg-blue-600 transition duration-300 ease-in-out text-white w-12 h-12 rounded-xl flex items-center justify-center"
             >
-              <i className="fas fa-paper-plane"></i>
+              {loading ? (
+                <>
+                  <i className="fas fa-spinner fa-spin"></i>
+                </>
+              ) : (
+                <>
+                  <i className="fas fa-paper-plane"></i>
+                </>
+              )}
             </button>
           </div>
           {/* Comments */}
@@ -163,7 +150,11 @@ const Post = ({
                       {comment?.user?.username}
                     </h3>
                     <small className="text-slate-400 text-sm whitespace-nowrap">
-                      {comment?.time?.toDate().toDateString()?.slice(4)}
+                      {comment?.time !== undefined ? (
+                        comment?.time?.toDate().toDateString()
+                      ) : (
+                        <></>
+                      )}
                     </small>
                   </div>
                   <p className="text-slate-300 text-sm">{comment.comment}</p>

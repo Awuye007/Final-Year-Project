@@ -108,17 +108,19 @@ export const MiddleContent = () => {
     try {
       e.preventDefault();
       const post = posts.find((post) => post.id === id);
-      post.comments.push({
-        userId: user.id,
-        comment,
-        time: new Date(),
-      });
-
-      setPosts(posts.map((post) => (post.id === id ? post : post)));
 
       await updateDoc(doc(db, "posts", id), {
-        comments: post.comments,
+        comments: [
+          ...post.comments,
+          {
+            comment,
+            time: new Date(),
+            userId: user.id,
+          },
+        ]
       });
+
+      await getPosts();
       setComment("");
     } catch (error) {
       console.log(error);
