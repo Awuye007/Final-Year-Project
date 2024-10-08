@@ -2,7 +2,6 @@ import { Dialog, DialogBackdrop, DialogPanel } from "@headlessui/react";
 import React from "react";
 
 const VideoDisplay = ({ open, setOpen, videoUrl }) => {
-
   return (
     <Dialog open={open} onClose={setOpen} className="relative z-10">
       <DialogBackdrop
@@ -43,7 +42,7 @@ const VideoDisplay = ({ open, setOpen, videoUrl }) => {
               </div>
               <video
                 controls
-                autoPlay
+                autoPlay={true}
                 src={videoUrl}
                 className="min-h-[300px] w-full"
                 style={{ width: "100%" }}
